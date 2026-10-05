@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.0.1 (2026-10-05)
+
+### Documentation
+
+* hh: install with `bun add -g github:huishouden/cli#v1` (bunx caches moving tags); pr-lifecycle: body-only findings and a review per head.
+
 ## 2.0.0 (2026-10-05)
 
 ### Features
