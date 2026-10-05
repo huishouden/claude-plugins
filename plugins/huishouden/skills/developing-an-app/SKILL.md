@@ -18,7 +18,7 @@ public kit — read them, don't restate them from memory:
 - Design language, names and logos: https://github.com/huishouden/pwa-kit/blob/main/DESIGN.md
 - Engineering standard: https://github.com/huishouden/pwa-kit/blob/main/STANDARD.md
 - Household specifics (project, sites, who deploys rules): https://github.com/huishouden/portal/blob/main/STANDARDS.md
-- Pull requests: the `pr-lifecycle` skill in this plugin (draft → `hh dev review` → `hh dev verify`/`evidence` → `hh dev release` → `hh dev ready` → merge). The `hh` CLI: the `hh` skill. Operations and secrets: the `ops` skill.
+- Pull requests: the `pr-lifecycle` skill in this plugin (draft → `hh dev review` → `hh dev verify`/`evidence` → `hh dev ready` → merge). The `hh` CLI: the `hh` skill. Operations and secrets: the `ops` skill.
 
 ## The suite
 
@@ -92,7 +92,7 @@ Full text: pwa-kit STANDARD.md, "Who it's for".
     a specialized `cr` reviewer in the org's own repo `huishouden/cr-reviewers`
     (`.codereview/agents/huishouden/`, cloned outside app checkouts to `~/Dev/huishouden-cr-reviewers`
     and added with `cr config agent-source add <clone>/.codereview/agents --profile <profile>`) for
-    judgment: `huishouden:docs-sync` (README, screenshots, release entry, kit docs, `apps.json`, privacy
+    judgment: `huishouden:docs-sync` (README, screenshots, kit docs, `apps.json`, privacy
     page, org profile and these skills move with the change), `huishouden:design-language`,
     `huishouden:i18n`, `huishouden:roles-privacy`, `huishouden:public-data`, `huishouden:shared-kit`.
     A rule that changes updates the reviewer that cites it.
@@ -100,8 +100,8 @@ Full text: pwa-kit STANDARD.md, "Who it's for".
    (`git config core.hooksPath .githooks`), secret scanning + push protection on. Rules describe
    patterns; never list real values to block.
 8. **Every PR follows `pr-lifecycle`:** a draft first, `hh dev review` to the bar, evidence
-   (`hh dev verify` or `hh dev evidence`), version and CHANGELOG.md section (`hh dev release`),
-   `hh dev ready` (mandatory; it refuses without the bump), then merge. Conventional title.
+   (`hh dev verify` or `hh dev evidence`), `hh dev ready` (mandatory), then merge. Conventional
+   title: CI versions from it on merge; a PR carries no version or CHANGELOG.
 9. **Verify in a real browser yourself** (Playwright headless, against a local preview or staging,
    never production) before telling the user it works; extend the tests when a bug is found by hand.
 10. **General guidance lives in general places:** when the user gives a rule that applies beyond one
@@ -133,7 +133,7 @@ Full text: pwa-kit STANDARD.md, "Who it's for".
   2. Add it to the portal's `apps.json` with `"path": "/<app>/"`; `bun run bootstrap` in the portal
      (the user runs it: IAM bindings).
   3. Build with `pwaApp({ base: '/<app>/' })` and `pwa.yml` `base: /<app>/`; generate its logo;
-     DESIGN.md from the first commit; `package.json` version and CHANGELOG.md from the first PR.
+     DESIGN.md from the first commit. No package version or CHANGELOG: CI tags releases.
   4. Its Firestore block in `huishouden/rules`, with emulator tests.
   5. **Update the org profile and repo description**: a row in huishouden/.github
      `profile/README.md`; check with `hh ops profile-check` (`--fix` opens the PR).
@@ -144,10 +144,10 @@ Full text: pwa-kit STANDARD.md, "Who it's for".
   Every app shares localStorage and IndexedDB: prefix new localStorage keys with the app's name
   unless sharing is the point.
 - **Deploys:** only `main` runs hosted CI (pull requests run nothing). `pwa.yml` (keyless) refuses
-  to build when code changed since the version's tag (run `hh dev release` in the PR), publishes
-  the build as the repo's `hosting` release asset, assembles the whole site from every app's latest
-  asset, deploys it, checks the live path over HTTP (no browser) and tags the version with its
-  CHANGELOG.md section as the release. No schedules: no reconcile, Renovate or digest. README
+  tags and releases the merge first (next semver from the Conventional Commit titles; nothing
+  committed back; chore/docs/test/ci alone release nothing), builds with that `vX.Y.Z` and the
+  commit SHA embedded, publishes the build as the release's `hosting` asset, assembles the whole
+  site from every app's latest asset, deploys it and checks the live path over HTTP (no browser). No schedules: no reconcile, Renovate or digest. README
   screenshots come from the author's evidence run, never production.
 - **Staging:** a second Firebase project, `huishouden-staging` (free, invented data only, its own
   10 GB of Hosting). Each app has a staging site, `huishouden-staging-<app>.web.app`, holding the

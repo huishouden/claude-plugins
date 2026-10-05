@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.2.0 (2026-10-05)
+
+### Documentation
+
+* pr-lifecycle, hh: versions come from CI on merge (tag, release, tarball); no version or CHANGELOG in a PR, `hh dev release` is a no-op; hh updates itself before a command; verify/evidence/review/ready bump a behind kit as a `chore: kit` commit. Install by release tarball.
+
 ## 2.1.2 (2026-10-05)
 
 ### Documentation

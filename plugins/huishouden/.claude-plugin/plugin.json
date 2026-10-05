@@ -1,7 +1,7 @@
 {
   "name": "huishouden",
-  "version": "2.1.2",
-  "description": "Building and running Huishouden, the household app suite: developing an app (standards, design, Hosting bandwidth, new-app checklist), the pull request lifecycle (draft, hh dev review, evidence, release, ready), the hh CLI (sign-in, household data, dev and ops commands), and operations (Firebase, Workers, New Relic, secrets).",
+  "version": "2.2.0",
+  "description": "Building and running Huishouden, the household app suite: developing an app (standards, design, Hosting bandwidth, new-app checklist), the pull request lifecycle (draft, hh dev review, evidence, ready), the hh CLI (sign-in, household data, dev and ops commands), and operations (Firebase, Workers, New Relic, secrets).",
   "author": {
     "name": "Huishouden"
   }

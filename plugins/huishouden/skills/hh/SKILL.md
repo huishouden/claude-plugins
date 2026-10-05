@@ -5,7 +5,7 @@ description: >
   through the portal), the household's data as the signed-in person (`hh data`: today, groceries,
   tasks, pets, Health…, the AI connector's own tools), `ops` (auth domains, OAuth origins and
   redirect URIs, secrets from stdin, monitoring, household roles, profile-check, staging-cleanup),
-  the `dev` group (verify, evidence, release, ready, review, bump-kit), --json output, and how to
+  the `dev` group (verify, evidence, ready, review, bump-kit), --json output, and how to
   add a command. Use whenever a Huishouden task runs hh, reads or changes household data from a
   terminal, when hh is missing or fails, or when adding an hh command.
 ---
@@ -17,13 +17,15 @@ Repo: https://github.com/huishouden/cli. Bun and TypeScript, PolyForm Shield.
 ## Install
 
 ```sh
-bun add -g github:huishouden/cli#v1     # installs `hh` on PATH
-bun remove -g @huishouden/cli && bun add -g github:huishouden/cli#v1   # update (bun caches #v1)
+bun add -g https://github.com/huishouden/cli/releases/download/vX.Y.Z/cli-X.Y.Z.tgz   # a release's tarball (public)
 hh --version
 ```
 
-`bunx github:huishouden/cli#v1.2.3 …` works without installing, with an exact tag: bunx caches a
-moving tag (`#v1`) and keeps running the copy it fetched first.
+hh updates itself: before a command runs it installs the latest release (asked of GitHub at most
+every 6 hours, cached in `~/.cache/hh`) and runs the same command on it. Skipped in CI, with
+`HH_NO_AUTO_UPDATE=1`, offline, or from a source checkout; a failure warns and the command runs.
+`hh self-update` does it by hand. To install by hand over an existing install, `bun remove -g
+@huishouden/cli` first (bun add -g over a tarball URL fails with DependencyLoop).
 
 `hh login` and `hh data` need only `bun` (and a browser once). The `dev` and `ops` commands also
 need `gh` (signed in), and per command: `cr` (review), Java 21 (emulator tests), `firebase` signed
@@ -87,10 +89,9 @@ why). Writes are not marked `via: 'assistant'`.
 |---|---|
 | `hh dev verify` | Install, lint, kit checks (design, writes, headers, i18n, bandwidth), unit tests, build, screenshots (phone/tablet, light/dark) on a local preview, emulator tests. Writes `.hh/evidence/<sha>/` |
 | `hh dev evidence [--staging\|--local] [--no-post]` | Verify locally or on the app's staging site (chosen from changed paths), post/update the PR's evidence comment with images |
-| `hh dev release [--level=…] [--commit] [--dry-run]` | package.json version + CHANGELOG.md section from Conventional Commits since the last tag |
 | `hh dev review [--pr=N]` | `cr review` with the org reviewers, one at a time per machine; findings and unresolved threads; records the result for the head commit (PR comment + `~/.cache/hh/reviews/`) |
-| `hh dev ready [--dry-run]` | Review bar (reviewer review or `hh-review` marker for head), evidence for head, version bump; then `gh pr ready`. Mandatory before ready/merge |
-| `hh dev bump-kit [--to=vX.Y.Z]` | `@huishouden/pwa-kit` to the latest tag, install, lint, test |
+| `hh dev ready [--dry-run] [--no-bump-kit]` | Review bar (reviewer review or `hh-review` marker for head) and evidence for head; then `gh pr ready`. Bumps a behind kit first (and redoes review and evidence). Mandatory before ready/merge |
+| `hh dev bump-kit [--to=vX.Y.Z]` | `@huishouden/pwa-kit` (the release tarball, else the git tag) and the workflow refs to the latest tag, install, lint, test. verify, evidence, review and ready do this as a `chore: kit vX.Y.Z` commit when behind (`--no-bump-kit` skips) |
 | `hh ops auth-domains [--production\|--staging]` | Firebase Auth authorized domains vs the expected set (gcloud token, read-only); the kit bootstrap fixes |
 | `hh ops oauth-check [--production\|--staging]` | OAuth client JavaScript origins + the auth handler redirect URI (public probes); missing ones are a console click for the user |
 | `hh ops secret set <repo> <name> [--env <e>]` | GitHub Actions secret, value on stdin only (see the ops skill) |
@@ -123,5 +124,5 @@ imported from the group's `index.ts`; `run` returns `{ ok, data, text }`. Two-wo
 (`roles set`) work; `valued` lists the flags that take a value. Groups: `dev`, `ops`, `data`,
 `account`. A new household tool goes in the kit's `household-tools` (so the connector gets it too)
 and is one row in `src/commands/data/index.ts`; anything else acting as the person uses
-`openSession(site)` from `src/lib/household.ts`. Follow the PR lifecycle; `main` tags the version
-and moves `v1`.
+`openSession(site)` from `src/lib/household.ts`. Follow the PR lifecycle; CI tags the version and
+attaches the tarball on merge (no version in the PR).
