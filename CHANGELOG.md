@@ -1,5 +1,12 @@
 # Changelog
 
+## 2.1.0 (2026-10-05)
+
+### Features
+
+* hh: `hh login` (loopback + PKCE through the portal; the person's own step), `hh data` (the AI connector's tools as the signed-in person: commands, flags, `--json`, confirming guards), and the new `hh ops` commands (auth-domains, oauth-check, secret set, monitoring, roles).
+* ops: `hh ops oauth-check` and `auth-domains` for sign-in lists, `hh ops secret set` for GitHub secrets from stdin, `hh ops monitoring`, `hh ops roles`; the connector's `/cli/*` endpoints.
+
 ## 2.0.2 (2026-10-05)
 
 ### Documentation
