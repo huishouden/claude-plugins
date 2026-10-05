@@ -70,7 +70,7 @@ why). Writes are not marked `via: 'assistant'`.
 | `home upkeep`, `home event <title>` | Home |
 | `appointment add <app> <title> <start>` | appointments |
 | `contacts search <query>`, `contacts add <name>` | contacts |
-| `health people`, `health medicines <person>`, `health history <person>`, `health due [person]`, `health dose <person> <medicine>`, `health add <person> <name>`, `health update <person> <medicine>`, `health doctor-list <person>` | Health (carers and admins) |
+| `health people`, `health medicines <person>`, `health history <person>`, `health due [person]`, `health appointments [person]`, `health dose <person> <medicine>`, `health add <person> <name>`, `health update <person> <medicine>`, `health doctor-list <person>` | Health (carers and admins) |
 
 - Every other argument is a `--kebab-case` flag named after the tool's: `hh data <command> --help`
   lists them with their accepted values. Lists are comma-separated (`--times 08:00,20:00`),
