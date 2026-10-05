@@ -37,13 +37,17 @@ Firestore rules deploy only from `huishouden/rules` main.
 ## Sign-in origins
 
 Each project's OAuth client lists only its suite site and `<project>.firebaseapp.com`; Google allows
-an unverified app 10 domains. `pwa-oauth-origins` checks them (the smoke job runs it). Adding an
-origin is a Cloud Console click for the user.
+an unverified app 10 domains. `hh ops oauth-check` probes both projects' origins and the auth
+handler redirect URI (`https://<project>.firebaseapp.com/__/auth/handler`); `pwa-oauth-origins`
+does the origins in the smoke job. Adding one is a Cloud Console click for the user (Google has no
+API). `hh ops auth-domains` compares Firebase Auth's authorized domains with what each project
+should have; the kit bootstrap adds missing ones (`--prune-domains` removes extras).
 
 ## Workers (Cloudflare, free plan)
 
 `notify` (Web Push every 5 minutes: product, keep its schedule), `connector` (MCP server for AI
-assistants, acts as the person via the portal's /connect hand-off), `calendar` (feed and Google
+assistants, acts as the person via the portal's /connect hand-off; also `hh login`'s
+`/cli/hand-off` and `/cli/token`), `calendar` (feed and Google
 sync, card alerts). Each deploys staging then production from `main` with `CLOUDFLARE_API_TOKEN`.
 Worker secrets live in Cloudflare (`wrangler secret put`), never in the repo or Actions.
 
@@ -51,7 +55,9 @@ Worker secrets live in Cloudflare (`wrangler secret put`), never in the repo or 
 
 Free tier: Browser apps, a ping monitor per app path (every 30 minutes, two locations), alerts and a
 dashboard, provisioned by the kit's `infra/newrelic.ts` from the portal's `monitoring` workflow
-(runs when `apps.json` changes, or by hand). Pings are HTTP only, no browser.
+(runs when `apps.json` changes, or by hand). Pings are HTTP only, no browser. `hh ops monitoring
+[--dry-run]` dispatches it, waits and summarizes; a skipped provisioning step means the
+`NEW_RELIC_API_KEY` or `ALERT_EMAIL` secret is missing.
 
 ## GitHub
 
@@ -65,8 +71,11 @@ dashboard, provisioned by the kit's `infra/newrelic.ts` from the portal's `monit
 ## Secrets
 
 - Read with the `secrets-access` skill; never print, log, or pass a secret in argv (`ps` shows
-  argv). Pipe on stdin: `gh secret set NAME -R huishouden/<repo> < file` or `printf %s "$v" | gh
-  secret set NAME`, `wrangler secret put NAME` (prompts on stdin).
+  argv). GitHub: `hh ops secret set <repo> <NAME> < file` (or piped from the reader; typed by hand
+  it reads with echo off), which refuses a value in argv and never prints it. Cloudflare:
+  `wrangler secret put NAME` (prompts on stdin).
+- Household roles: `hh ops roles` lists, `hh ops roles set <email> <role>` sets as the signed-in
+  admin (`hh login`), through the rules: never one's own role, only members.
 - Firebase web config, OAuth client ids, VAPID public keys and New Relic browser keys are public
   by design: repo variables, not secrets.
 - Never poll a command that can raise a credential or permission prompt; ask once, then wait.
