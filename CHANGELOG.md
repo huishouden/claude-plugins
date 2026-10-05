@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.1.1 (2026-10-05)
+
+### Documentation
+
+* hh: `hh data health appointments [person]` (Health visits, kit 0.98.0).
+
 ## 2.1.0 (2026-10-05)
 
 ### Features
