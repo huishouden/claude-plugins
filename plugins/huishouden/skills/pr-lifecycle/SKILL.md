@@ -28,7 +28,12 @@ tests, deploys, checks the live site over HTTP and tags the version. The `hh` CL
    resolve the thread. Push and run `hh dev review` again. **Bar: no Blocking or Major open.** A
    finding posted only in the review body (no thread) stays open until a review of a later head
    no longer reports it; every push needs a review of the new head (hh asks cr with `--rerun` when
-   cr would keep its older review).
+   cr would keep its older review). A clean review (0 findings) posts nothing as the reviewer, so
+   `hh dev review` also records its result for the head commit: one PR comment by you, updated in
+   place (`hh review: <SHA> — 0 Blocking, 0 Major (N Minor) · cr run <id>`, marker
+   `<!-- hh-review sha=… -->`), and a file under `~/.cache/hh/reviews/`. It records nothing when cr
+   wrote no rollup, and warns when your gh login is neither the PR author nor the reviewer. Run
+   it after the last push (`hh dev release --commit` moves the head).
 4. **Verify**:
    - `hh dev evidence` picks the mode from the changed paths: **staging** for rules, Workers,
      sign-in, Google, notifications or Hosting config; **local** otherwise (`--staging`/`--local`
@@ -48,7 +53,10 @@ tests, deploys, checks the live site over HTTP and tags the version. The `hh` CL
    last tag, and writes the CHANGELOG.md section. Re-run after rebasing onto a main that released
    meanwhile (it replaces its own section). Docs-only PRs need no bump. Push.
 6. **Ready**: `hh dev ready`. **Mandatory before `gh pr ready` and before merging.** It refuses
-   unless: the reviewer account reviewed the head commit with no Blocking/Major thread open; the
+   unless: the reviewer account reviewed the head commit with no Blocking/Major thread open (when it
+   did not review, the `hh-review` marker for the full head SHA with 0 Blocking and 0 Major,
+   authored by the PR author or the reviewer, stands in; a marker for an older head or by anyone
+   else is ignored); the
    evidence comment is for the head commit and passed; the version is above main's with its
    CHANGELOG.md section (or the change is docs only). On success it runs `gh pr ready`. Never mark a
    PR ready or merge it by hand around this check.

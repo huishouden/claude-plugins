@@ -88,8 +88,8 @@ why). Writes are not marked `via: 'assistant'`.
 | `hh dev verify` | Install, lint, kit checks (design, writes, headers, i18n, bandwidth), unit tests, build, screenshots (phone/tablet, light/dark) on a local preview, emulator tests. Writes `.hh/evidence/<sha>/` |
 | `hh dev evidence [--staging\|--local] [--no-post]` | Verify locally or on the app's staging site (chosen from changed paths), post/update the PR's evidence comment with images |
 | `hh dev release [--level=…] [--commit] [--dry-run]` | package.json version + CHANGELOG.md section from Conventional Commits since the last tag |
-| `hh dev review [--pr=N]` | `cr review` with the org reviewers, one at a time per machine; findings and unresolved threads |
-| `hh dev ready [--dry-run]` | Review bar, evidence for head, version bump; then `gh pr ready`. Mandatory before ready/merge |
+| `hh dev review [--pr=N]` | `cr review` with the org reviewers, one at a time per machine; findings and unresolved threads; records the result for the head commit (PR comment + `~/.cache/hh/reviews/`) |
+| `hh dev ready [--dry-run]` | Review bar (reviewer review or `hh-review` marker for head), evidence for head, version bump; then `gh pr ready`. Mandatory before ready/merge |
 | `hh dev bump-kit [--to=vX.Y.Z]` | `@huishouden/pwa-kit` to the latest tag, install, lint, test |
 | `hh ops auth-domains [--production\|--staging]` | Firebase Auth authorized domains vs the expected set (gcloud token, read-only); the kit bootstrap fixes |
 | `hh ops oauth-check [--production\|--staging]` | OAuth client JavaScript origins + the auth handler redirect URI (public probes); missing ones are a console click for the user |
