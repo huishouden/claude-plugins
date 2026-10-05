@@ -14,7 +14,8 @@ Repo: https://github.com/huishouden/cli. Bun and TypeScript, PolyForm Shield.
 ## Install
 
 ```sh
-bun add -g github:huishouden/cli#v1     # installs `hh` on PATH; run again to update to the latest 1.x
+bun add -g github:huishouden/cli#v1     # installs `hh` on PATH
+bun remove -g @huishouden/cli && bun add -g github:huishouden/cli#v1   # update (bun caches #v1)
 hh --version
 ```
 
@@ -38,6 +39,7 @@ on stderr. Exit code 0 means `ok: true`. Prefer `--json` when an agent reads the
 | `hh dev review [--pr=N]` | `cr review` with the org reviewers, one at a time per machine; findings and unresolved threads |
 | `hh dev ready [--dry-run]` | Review bar, evidence for head, version bump; then `gh pr ready`. Mandatory before ready/merge |
 | `hh dev bump-kit [--to=vX.Y.Z]` | `@huishouden/pwa-kit` to the latest tag, install, lint, test |
+| `hh ops staging-cleanup` | Staging leftovers over a day old (kit's sweep from its latest release, gcloud-impersonated token); evidence --staging runs it |
 | `hh ops profile-check [--fix]` | Org profile and repo descriptions vs apps.json and Worker repos; `--fix` opens a PR |
 | `hh login [--staging]`, `hh whoami`, `hh logout` | One sign-in via the portal's /connect hand-off, kept in the OS keychain, for `hh data` |
 

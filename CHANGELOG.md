@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.0.2 (2026-10-05)
+
+### Documentation
+
+* hh: updating needs `bun remove -g` first (bun caches `#v1`); `hh ops staging-cleanup`.
+
 ## 2.0.1 (2026-10-05)
 
 ### Documentation
