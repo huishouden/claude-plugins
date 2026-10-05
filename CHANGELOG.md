@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.1.2 (2026-10-05)
+
+### Documentation
+
+* pr-lifecycle, hh: `hh dev review` records a clean result for the head commit (hh-review marker, hh 1.3.2); `hh dev ready` accepts it from the PR author or the reviewer.
+
 ## 2.1.1 (2026-10-05)
 
 ### Documentation
