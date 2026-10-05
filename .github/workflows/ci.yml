@@ -1,0 +1,25 @@
+name: ci
+
+# main only: the marketplace and plugin manifests parse and every skill has its front matter.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          fetch-depth: 0
+      - uses: huishouden/pwa-kit/actions/leak-scan@v0
+      - uses: huishouden/pwa-kit/actions/license-check@v0
+      - name: Manifests and skills
+        run: |
+          jq -e '.plugins | length > 0' .claude-plugin/marketplace.json
+          for p in plugins/*/.claude-plugin/plugin.json; do jq -e '.name and .version' "$p"; done
+          for s in plugins/*/skills/*/SKILL.md; do head -1 "$s" | grep -qx -- '---' && grep -q '^name:' "$s" && grep -q '^description:' "$s" || { echo "::error file=$s::front matter"; exit 1; }; done

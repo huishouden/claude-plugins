@@ -1,0 +1,14 @@
+{
+  "name": "huishouden",
+  "owner": {
+    "name": "Huishouden"
+  },
+  "description": "Claude Code plugins for working on Huishouden, the household app suite.",
+  "plugins": [
+    {
+      "name": "huishouden",
+      "source": "./plugins/huishouden",
+      "description": "Developing an app, the pull request lifecycle with the hh CLI, and operating the suite"
+    }
+  ]
+}
