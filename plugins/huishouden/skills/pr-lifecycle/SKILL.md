@@ -12,7 +12,7 @@ description: >
 
 Pull requests run **no hosted CI**. The author (you) owns everything before `main`; `main` builds,
 tests, deploys, checks the live site over HTTP and tags the version. The `hh` CLI does each step
-(install: the `hh` skill). Source of truth: pwa-kit STANDARD.md "Pull requests" and "Versions".
+(install: `bun add -g github:huishouden/cli#v1`; the `hh` skill). Source of truth: pwa-kit STANDARD.md "Pull requests" and "Versions".
 
 ## The steps, in order
 
@@ -25,7 +25,10 @@ tests, deploys, checks the live site over HTTP and tags the version. The `hh` CL
    `CR_CLAUDE_FOREGROUND=1 cr review <PR> --profile reviewer --max-agents 8 --json` (with
    `--fresh-session` on a PR's first review after the reviewers change), one review at a time on
    the machine. Address every finding: fix it, or answer it in the thread with evidence, then
-   resolve the thread. Push and run `hh dev review` again. **Bar: no Blocking or Major open.**
+   resolve the thread. Push and run `hh dev review` again. **Bar: no Blocking or Major open.** A
+   finding posted only in the review body (no thread) stays open until a review of a later head
+   no longer reports it; every push needs a review of the new head (hh asks cr with `--rerun` when
+   cr would keep its older review).
 4. **Verify**:
    - `hh dev evidence` picks the mode from the changed paths: **staging** for rules, Workers,
      sign-in, Google, notifications or Hosting config; **local** otherwise (`--staging`/`--local`

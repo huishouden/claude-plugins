@@ -14,9 +14,12 @@ Repo: https://github.com/huishouden/cli. Bun and TypeScript, PolyForm Shield.
 ## Install
 
 ```sh
-bunx github:huishouden/cli#v1 <group> <command>     # no install; v1 follows the latest 1.x
-bun add -g github:huishouden/cli#v1                 # or install `hh` on PATH
+bun add -g github:huishouden/cli#v1     # installs `hh` on PATH; run again to update to the latest 1.x
+hh --version
 ```
+
+`bunx github:huishouden/cli#v1.2.3 …` works without installing, with an exact tag: bunx caches a
+moving tag (`#v1`) and keeps running the copy it fetched first.
 
 Needs `bun`, `gh` (signed in), and per command: `cr` (review), Java 21 (emulator tests),
 `firebase` signed in with access to `huishouden-staging` and `gcloud` (staging evidence), the OS
