@@ -1,5 +1,12 @@
 # Changelog
 
+## 2.4.0 (2026-10-11)
+
+### Documentation
+
+* developing-an-app, pr-lifecycle, hh: household tools ship with the data. A change that adds or changes user-editable data, or a household task an agent was asked to do without a tool, carries the kit tool, the connector bump and the `hh data` command in the same change set. The kit's `COVERAGE` lists every writable collection, and huishouden/rules' test enforces it.
+* hh: the `baby`, `pet outing`, `pet routines` and `health conditions` commands are in the `hh data` table.
+
 ## 2.3.2 (2026-10-11)
 
 ### Documentation

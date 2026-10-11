@@ -68,17 +68,21 @@ why). Writes are not marked `via: 'assistant'`.
 | `groceries list [list]`, `groceries add <name> [--quantity --category --list --urgency]`, `groceries check <item>` | shopping lists |
 | `tasks add <name> [--due YYYY-MM-DD[THH:MM]]` | tasks |
 | `bills due` | bills (admins and members) |
-| `pet today [pet]`, `pet feeding <pet>`, `pet dose <pet> <medicine>` | Pet |
+| `pet today [pet]`, `pet feeding <pet>`, `pet dose <pet> <medicine>`, `pet outing <pet>`, `pet routines [pet]`, `pet routine-done <routine>` | Pet |
+| `baby settings`, `baby contraction-note <note>`, `baby kicks [--target N] [--remind-at HH:MM\|off]` | Baby's settings (changing them: admins and members) |
 | `home upkeep`, `home event <title>` | Home |
 | `appointment add <app> <title> <start>` | appointments |
 | `contacts search <query>`, `contacts add <name>` | contacts |
+| `health conditions [person]`, `health condition add <person> <name>` | Health conditions (admins and member carers) |
 | `health people`, `health medicines <person>`, `health history <person>`, `health due [person]`, `health appointments [person]`, `health dose <person> <medicine>`, `health add <person> <name>`, `health update <person> <medicine>`, `health doctor-list <person>` | Health (carers and admins) |
 
 - Every other argument is a `--kebab-case` flag named after the tool's: `hh data <command> --help`
   lists them with their accepted values. Lists are comma-separated (`--times 08:00,20:00`),
   `--no-x` sets false, `null` clears a nullable field.
 - `--household <id or name>` when the person has several (`hh data households`).
-- Writes take `--idempotency-key <k>`: reuse it when retrying the same change.
+- Writes that add a record take `--idempotency-key <k>`: reuse it when retrying the same change.
+- A household task with no command here is a missing tool: build it (developing-an-app rule 13),
+  then run it. Never write production Firestore by hand instead.
 - Health and Pet doses: a guard warning (`needs_confirmation: true`, nothing written) means ask the
   person; only then repeat with `--confirm`.
 - Answers are the household's records, not medical advice.

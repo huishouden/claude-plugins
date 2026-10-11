@@ -22,6 +22,10 @@ merge.** Source of truth: pwa-kit STANDARD.md "Pull requests" and "Versions".
    fix/perf/refactor patch, `!` or `BREAKING CHANGE:` major; chore/docs/test/ci alone release
    nothing). The pre-commit hook runs the leak scan
    (`git config core.hooksPath .githooks` once per clone).
+   **A change to user-editable data carries its household tool** (developing-an-app rule 13):
+   the kit tool, the connector bump and the `hh data` command are PRs in the same change set,
+   merged kit first, then rules, connector and cli. A household task an agent was asked to do
+   with no tool for it is the same: build the tool, then do the task with it.
 2. **Open a draft**: `gh pr create --draft`, conventional title, body with what changed and why.
 3. **Review while draft**: `hh dev review`. It pulls `huishouden/cr-reviewers` (clone at
    `~/Dev/huishouden-cr-reviewers`), registers it on the `reviewer` profile, and runs
@@ -93,6 +97,10 @@ command on it. Not in CI, with `HH_NO_AUTO_UPDATE=1`, offline, or from a source 
 update is a warning.
 
 ## What not to do
+
+- No household data change without its tool: no new collection, field or setting that `hh data` and
+  the connector can't reach, unless the kit's `COVERAGE` lists it as `internal` or `gap` with the reason.
+  Never hand-write production Firestore in place of a missing tool.
 
 - No `pull_request` triggers, schedules, bots or comment-posting jobs in workflows: process work is
   the author's, done with `hh`.
