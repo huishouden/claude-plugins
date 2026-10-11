@@ -24,7 +24,7 @@ merge.** Source of truth: pwa-kit STANDARD.md "Pull requests" and "Versions".
    (`git config core.hooksPath .githooks` once per clone).
    **A change to user-editable data carries its household tool** (developing-an-app rule 13):
    the kit tool, the connector bump and the `hh data` command are PRs in the same change set,
-   merged kit first, then rules, connector and cli. A household task an agent was asked to do
+   merged in this order: kit, rules (when they change), connector, cli (developing-an-app rule 13). A household task an agent was asked to do
    with no tool for it is the same: build the tool, then do the task with it.
 2. **Open a draft**: `gh pr create --draft`, conventional title, body with what changed and why.
 3. **Review while draft**: `hh dev review`. It pulls `huishouden/cr-reviewers` (clone at
