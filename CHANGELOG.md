@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.2.0 (2026-10-10)
+
+### Features
+
+* ops, hh: the secret rule (never paste a secret in chat: copy it, `hh ops secret store`, then `push`; agents never read keychain values) and `hh ops secret store`, `push`, `where`, `rotate`.
+
 ## 2.1.3 (2026-10-10)
 
 ### Documentation

@@ -70,10 +70,25 @@ dashboard, provisioned by the kit's `infra/newrelic.ts` from the portal's `monit
 
 ## Secrets
 
-- Read with the `secrets-access` skill; never print, log, or pass a secret in argv (`ps` shows
-  argv). GitHub: `hh ops secret set <repo> <NAME> < file` (or piped from the reader; typed by hand
-  it reads with echo off), which refuses a value in argv and never prints it. Cloudflare:
-  `wrangler secret put NAME` (prompts on stdin).
+- **Never paste a secret in chat.** The user copies it, runs `hh ops secret store <name>`, then
+  `hh ops secret push <name>`. **Agents never read keychain values** (no `security
+  find-generic-password -w`, `secret-tool lookup`, `op read`, `pbpaste`), never print, log, or pass
+  a secret in argv (`ps` shows argv). An agent asks the user to copy and store; hh does the rest
+  in-process.
+- `hh ops secret store <name>`: the clipboard, validated (cloudflare: `cfut_`, 40+ characters,
+  accepted by Cloudflare; newrelic-user: `NRAK-`; other names non-empty), saved to the OS keychain
+  (cloudflare: service `huishouden-cloudflare-api-token`, account `huishouden`), clipboard cleared.
+- `hh ops secret push <name> [--repos a,b] [--env production]`: keychain to GitHub secrets on
+  stdin, with companions (cloudflare also sets `CLOUDFLARE_ACCOUNT_ID`). Defaults: cloudflare to
+  environment `production` (main only) of portal, connector, notify, calendar. No app repo holds it.
+- `hh ops secret where`: which repos and environments hold each known secret (names and updatedAt
+  only), flagging unexpected placements (a repo-level Cloudflare token, an app repo) and missing ones.
+- `hh ops secret rotate <name>`: the user rolls it in the provider and copies it; hh stores,
+  pushes to every default target and checks each was updated. Rolling is only for a leaked or
+  expiring token: moving or re-adding one is `store` then `push`.
+- `hh ops secret set <repo> <NAME> < file` still sets one GitHub secret from stdin (a name outside
+  the registry). Read other credentials with the `secrets-access` skill. Worker secrets live in
+  Cloudflare (`wrangler secret put NAME`, prompts on stdin).
 - Household roles: `hh ops roles` lists, `hh ops roles set <email> <role>` sets as the signed-in
   admin (`hh login`), through the rules: never one's own role, only members.
 - Firebase web config, OAuth client ids, VAPID public keys and New Relic browser keys are public
