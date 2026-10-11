@@ -92,7 +92,7 @@ why). Writes are not marked `via: 'assistant'`.
 | `hh dev review [--pr=N]` | `cr review` with the org reviewers, one at a time per machine; findings and unresolved threads; records the result for the head commit (PR comment + `~/.cache/hh/reviews/`) |
 | `hh dev release` | Retired: a no-op that says CI versions, tags and releases on merge |
 | `hh dev ready [--dry-run] [--no-bump-kit]` | Review bar (reviewer review or `hh-review` marker for head) and evidence for head; then `gh pr ready`. Bumps a behind kit first (and redoes review and evidence). Mandatory before ready/merge |
-| `hh dev bump-kit [--to=vX.Y.Z]` | `@huishouden/pwa-kit` (the release tarball, else the git tag) and the workflow refs to the latest tag, install, lint, test. verify, evidence, review and ready do this as a `chore: kit vX.Y.Z` commit when behind (`--no-bump-kit` skips) |
+| `hh dev bump-kit [--to=vX.Y.Z]` | `@huishouden/pwa-kit` (the release tarball, else the git tag) to the latest tag and the kit workflow and action refs pinned by commit (`@<sha> # vX.Y.Z`, resolved from the tag's peeled commit), install, lint, test. verify, evidence, review and ready do this as a `chore: kit vX.Y.Z` commit when behind (`--no-bump-kit` skips) |
 | `hh ops auth-domains [--production\|--staging]` | Firebase Auth authorized domains vs the expected set (gcloud token, read-only); the kit bootstrap fixes |
 | `hh ops oauth-check [--production\|--staging]` | OAuth client JavaScript origins + the auth handler redirect URI (public probes); missing ones are a console click for the user |
 | `hh ops secret set <repo> <name> [--env <e>]` | GitHub Actions secret, value on stdin only (see the ops skill) |

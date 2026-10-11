@@ -79,10 +79,12 @@ merge.** Source of truth: pwa-kit STANDARD.md "Pull requests" and "Versions".
 
 `hh dev verify|evidence|review|ready` in an app repo first checks the kit's latest release. When
 the repo is behind, hh commits `chore: kit vX.Y.Z` on the current branch (the package pin,
-`bun.lock`, the exact `@vX.Y.Z` workflow refs), pushes it, and prints what changed, so the PR
+`bun.lock`, and the kit workflow and action refs pinned by commit as `@<sha> # vX.Y.Z`), pushes it, and prints what changed, so the PR
 carries it. `--no-bump-kit` skips it. It never runs on `main`, never over uncommitted edits to
 `package.json`, `bun.lock` or the workflows, and a failure only warns. `hh dev bump-kit` does the
-same by hand (plus lint and tests).
+same by hand (plus lint and tests). Kit workflows and actions are pinned by commit SHA with the
+version in a trailing comment, never by tag (tags are movable); a pin whose comment names the
+target is current, and a pin is never turned back into a tag.
 
 ## hh updates itself
 
