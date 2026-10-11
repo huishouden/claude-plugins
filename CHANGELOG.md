@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.3.1 (2026-10-11)
+
+### Documentation
+
+* developing-an-app, pr-lifecycle, hh: kit workflows and actions are pinned by commit SHA with the version in a trailing comment (`@<sha> # vX.Y.Z`); `hh dev bump-kit` maintains it.
+
 ## 2.3.0 (2026-10-10)
 
 ### Documentation

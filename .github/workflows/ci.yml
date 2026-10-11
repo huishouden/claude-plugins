@@ -16,8 +16,8 @@ jobs:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
           fetch-depth: 0
-      - uses: huishouden/pwa-kit/actions/leak-scan@v0
-      - uses: huishouden/pwa-kit/actions/license-check@v0
+      - uses: huishouden/pwa-kit/actions/leak-scan@3082e59ed437c0bc90aa9ba0cee188c9ed3abbbd # v0.109.0
+      - uses: huishouden/pwa-kit/actions/license-check@3082e59ed437c0bc90aa9ba0cee188c9ed3abbbd # v0.109.0
       - name: Manifests and skills
         run: |
           jq -e '.plugins | length > 0' .claude-plugin/marketplace.json

@@ -99,6 +99,9 @@ Full text: pwa-kit STANDARD.md, "Who it's for".
 7. **Leak protection everywhere:** the kit leak scan in CI, the pre-commit hook
    (`git config core.hooksPath .githooks`), secret scanning + push protection on. Rules describe
    patterns; never list real values to block.
+   **Kit workflows and actions are pinned by commit SHA** with the version in a trailing comment
+   (`uses: huishouden/pwa-kit/<path>@<40-hex sha> # vX.Y.Z`), never by tag: tags are movable.
+   `hh dev bump-kit` maintains the pins.
 8. **Every PR follows `pr-lifecycle`:** a draft first, `hh dev review` to the bar, evidence
    (`hh dev verify` or `hh dev evidence`), `hh dev ready` (mandatory), then merge. Conventional
    title: CI versions from it on merge; a PR carries no version or CHANGELOG.
