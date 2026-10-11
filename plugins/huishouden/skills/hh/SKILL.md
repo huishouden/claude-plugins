@@ -5,7 +5,7 @@ description: >
   through the portal), the household's data as the signed-in person (`hh data`: today, groceries,
   tasks, pets, Health…, the AI connector's own tools), `ops` (auth domains, OAuth origins and
   redirect URIs, secrets (store, push, where, rotate; set from stdin), monitoring, household roles, profile-check, staging-cleanup, deploy-site),
-  the `dev` group (verify, evidence, ready, review, bump-kit), --json output, and how to
+  the `dev` group (verify, evidence, ready, review, bump-kit; release is a retired no-op), --json output, and how to
   add a command. Use whenever a Huishouden task runs hh, reads or changes household data from a
   terminal, when hh is missing or fails, or when adding an hh command.
 ---
@@ -90,6 +90,7 @@ why). Writes are not marked `via: 'assistant'`.
 | `hh dev verify` | Install, lint, kit checks (design, writes, headers, i18n, bandwidth), unit tests, build, screenshots (phone/tablet, light/dark) on a local preview, emulator tests. Writes `.hh/evidence/<sha>/` |
 | `hh dev evidence [--staging\|--local] [--no-post]` | Verify locally or on the app's staging site (chosen from changed paths), post/update the PR's evidence comment with images |
 | `hh dev review [--pr=N]` | `cr review` with the org reviewers, one at a time per machine; findings and unresolved threads; records the result for the head commit (PR comment + `~/.cache/hh/reviews/`) |
+| `hh dev release` | Retired: a no-op that says CI versions, tags and releases on merge |
 | `hh dev ready [--dry-run] [--no-bump-kit]` | Review bar (reviewer review or `hh-review` marker for head) and evidence for head; then `gh pr ready`. Bumps a behind kit first (and redoes review and evidence). Mandatory before ready/merge |
 | `hh dev bump-kit [--to=vX.Y.Z]` | `@huishouden/pwa-kit` (the release tarball, else the git tag) and the workflow refs to the latest tag, install, lint, test. verify, evidence, review and ready do this as a `chore: kit vX.Y.Z` commit when behind (`--no-bump-kit` skips) |
 | `hh ops auth-domains [--production\|--staging]` | Firebase Auth authorized domains vs the expected set (gcloud token, read-only); the kit bootstrap fixes |

@@ -57,7 +57,9 @@ merge.** Source of truth: pwa-kit STANDARD.md "Pull requests" and "Versions".
    generated notes and, for packages that ship code (the kit, hh), the tarball attached. Nothing
    is committed back to `main`. Apps get this from the kit's `pwa.yml`; the Workers and the rules
    repo call its `tag-release.yml` after their tests, before their deploy. Apps embed the tag in
-   the build (About screen, New Relic); `package.json` stays `0.0.0`.
+   the build (About screen, New Relic); `package.json` stays `0.0.0`. The one exception is the
+   huishouden/claude-plugins repo: installed plugins refresh only when `plugin.json`'s `version`
+   changes, so its PRs bump it and add a CHANGELOG.md entry (its README).
 6. **Ready**: `hh dev ready`. **Mandatory before `gh pr ready` and before merging.** It refuses
    unless: the reviewer account reviewed the head commit with no Blocking/Major thread open (when it
    did not review, the `hh-review` marker for the full head SHA with 0 Blocking and 0 Major,

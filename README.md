@@ -21,8 +21,8 @@ Update: `claude plugin marketplace update huishouden && claude plugin update hui
 
 ## Changing a skill
 
-Edit the SKILL.md, bump `version` in `plugins/huishouden/.claude-plugin/plugin.json` (installed
-copies only refresh on a version change) and add the CHANGELOG.md entry, in the same PR. Follow
+Edit the SKILL.md. This repo is the one exception to the suite's CI versioning (the marketplace has no release step): bump `version` in `plugins/huishouden/.claude-plugin/plugin.json` (installed
+copies only refresh on a version change) and add the CHANGELOG.md entry, in the same PR. Otherwise follow
 the pr-lifecycle skill.
 
 ## License
