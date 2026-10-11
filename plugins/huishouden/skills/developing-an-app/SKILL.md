@@ -118,6 +118,17 @@ Full text: pwa-kit STANDARD.md, "Who it's for".
 12. **Quick, and use location:** adding takes one field and one tap; extra fields only where they fit
     the item and folded otherwise (DESIGN.md principle 5). Use location wherever it saves a step;
     asking for precise or approximate location is fine, in context (DESIGN.md principle 6).
+13. **Household tools ship with the data** (kit STANDARD.md "Household tools"). A change that adds
+    or changes user-editable data (a collection, a field people set, a setting), or a household
+    task someone asked an agent to do that no tool covers, ships with the matching household tool
+    in the same change set, merged in this order: the kit's `src/household-tools/` (tool, tests,
+    `COVERAGE`), then huishouden/rules when the rules change, then a connector bump with an emulator
+    test under those rules, then `hh data` (command and README). Fix it as found, the way a kit gap is fixed, and never by writing to production
+    Firestore by hand.
+    The tool does what the app does: the same fields, limits and ids; the roles the rules allow;
+    and the reminders, agenda items or to-dos the app derives, written alongside. A new collection
+    in huishouden/rules fails its test until the kit's `COVERAGE` lists it as covered, `internal`
+    with the reason, or `gap` with what is missing. `coverageGaps()` is the open list.
 
 ## Shared platform facts
 
