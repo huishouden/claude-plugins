@@ -4,7 +4,7 @@ description: >
   Using the `hh` command line (huishouden/cli): install, signing in (`hh login`, loopback + PKCE
   through the portal), the household's data as the signed-in person (`hh data`: today, groceries,
   tasks, pets, Health…, the AI connector's own tools), `ops` (auth domains, OAuth origins and
-  redirect URIs, secrets from stdin, monitoring, household roles, profile-check, staging-cleanup, deploy-site),
+  redirect URIs, secrets (store, push, where, rotate; set from stdin), monitoring, household roles, profile-check, staging-cleanup, deploy-site),
   the `dev` group (verify, evidence, release, ready, review, bump-kit), --json output, and how to
   add a command. Use whenever a Huishouden task runs hh, reads or changes household data from a
   terminal, when hh is missing or fails, or when adding an hh command.
@@ -94,6 +94,10 @@ why). Writes are not marked `via: 'assistant'`.
 | `hh ops auth-domains [--production\|--staging]` | Firebase Auth authorized domains vs the expected set (gcloud token, read-only); the kit bootstrap fixes |
 | `hh ops oauth-check [--production\|--staging]` | OAuth client JavaScript origins + the auth handler redirect URI (public probes); missing ones are a console click for the user |
 | `hh ops secret set <repo> <name> [--env <e>]` | GitHub Actions secret, value on stdin only (see the ops skill) |
+| `hh ops secret store <name>` | Copied secret (clipboard) validated, saved to the OS keychain, clipboard cleared. Never paste a secret in chat: copy, `store`, then `push`. Agents never read keychain values |
+| `hh ops secret push <name> [--repos a,b] [--env production]` | Keychain to GitHub secrets on stdin, plus companions (cloudflare: `CLOUDFLARE_ACCOUNT_ID`); defaults per name (cloudflare: env `production` of portal, connector, notify, calendar) |
+| `hh ops secret where` | Which repos/environments hold each known secret (names and updatedAt only); flags unexpected placements |
+| `hh ops secret rotate <name>` | Guided: roll in the provider and copy, then store, push to all expected targets, verify |
 | `hh ops monitoring [--dry-run]` | Dispatch the portal's monitoring workflow (New Relic), wait, summarize |
 | `hh ops roles`, `hh ops roles set <email> <role>` | Household roles; set as the signed-in admin through the rules |
 | `hh ops deploy-site [--no-watch]` | Dispatches the portal's `ci` with `reconcile: true` and watches it. Only the portal's deploy uploads to the asset CDN, so run it after an app's PR is merged and its deploy finished |
