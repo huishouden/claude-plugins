@@ -94,7 +94,7 @@ why). Writes are not marked `via: 'assistant'`.
 | `hh ops auth-domains [--production\|--staging]` | Firebase Auth authorized domains vs the expected set (gcloud token, read-only); the kit bootstrap fixes |
 | `hh ops oauth-check [--production\|--staging]` | OAuth client JavaScript origins + the auth handler redirect URI (public probes); missing ones are a console click for the user |
 | `hh ops secret set <repo> <name> [--env <e>]` | GitHub Actions secret, value on stdin only (see the ops skill) |
-| `hh ops secret store <name>` | Copied secret (clipboard) validated, saved to the OS keychain, clipboard cleared. Never paste a secret in chat: copy, `store`, then `push`. Agents never read keychain values |
+| `hh ops secret store <name>` | Copied secret (clipboard) validated, saved to the OS keychain, clipboard cleared; the rule (never paste a secret in chat, agents never read keychain values) is in the ops skill |
 | `hh ops secret push <name> [--repos a,b] [--env production]` | Keychain to GitHub secrets on stdin, plus companions (cloudflare: `CLOUDFLARE_ACCOUNT_ID`); defaults per name (cloudflare: env `production` of portal, connector, notify, calendar) |
 | `hh ops secret where` | Which repos/environments hold each known secret (names and updatedAt only); flags unexpected placements |
 | `hh ops secret rotate <name>` | Guided: roll in the provider and copy, then store, push to all expected targets, verify |
