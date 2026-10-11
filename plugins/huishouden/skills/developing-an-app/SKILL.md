@@ -56,6 +56,12 @@ production in browsers). Never open production in a browser: not in Playwright, 
 `curl -sI` one URL. A browser visit costs the app's whole precache (0.4 to 0.5 MB compressed)
 per fresh context. Kit docs/one-site.md "Bandwidth".
 
+**Never create a `.env.local` (or any env file) with production values.** Vite and bun both read
+it, so a "local" build or signed-in test then runs against real household data (it has happened
+twice: agents pointed the build at `huishouden-piekstra`). The kit's `.gitignore` ignores `.env*`,
+but that only keeps it out of git. Use `hh dev verify` or `hh dev evidence`: they build with an
+explicit staging or emulator env and refuse to run when an env file or variable names production.
+
 ## What Huishouden is
 
 A product for **any household**, free, self-serve; the user's own household dogfoods it. Never
