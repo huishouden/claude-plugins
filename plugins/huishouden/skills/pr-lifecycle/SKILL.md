@@ -62,6 +62,10 @@ tests, deploys, checks the live site over HTTP and tags the version. The `hh` CL
    PR ready or merge it by hand around this check.
 7. **Merge** (squash). `main` refuses to deploy if the version wasn't bumped; on success it tags
    `v<version>` and publishes the section as the GitHub release.
+8. **Upload the app's assets (app repos).** Apps hold no Cloudflare token; once the app's own deploy has
+   finished on main, run `hh ops deploy-site`. It dispatches the portal's `ci` with `reconcile: true`
+   (which uploads the new build to the asset CDN, then redeploys the site) and watches it. A no-op
+   when the site is current.
 
 ## When main says "Version not bumped"
 
