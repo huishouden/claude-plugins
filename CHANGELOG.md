@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.3.2 (2026-10-11)
+
+### Documentation
+
+* developing-an-app: never create a `.env.local` with production values; `bun run env:pull` writes staging values, and `hh dev verify` and `hh dev evidence` refuse a production Firebase env.
+
 ## 2.3.1 (2026-10-11)
 
 ### Documentation
