@@ -4,7 +4,7 @@ description: >
   Using the `hh` command line (huishouden/cli): install, signing in (`hh login`, loopback + PKCE
   through the portal), the household's data as the signed-in person (`hh data`: today, groceries,
   tasks, pets, Health…, the AI connector's own tools), `ops` (auth domains, OAuth origins and
-  redirect URIs, secrets from stdin, monitoring, household roles, profile-check, staging-cleanup),
+  redirect URIs, secrets from stdin, monitoring, household roles, profile-check, staging-cleanup, deploy-site),
   the `dev` group (verify, evidence, release, ready, review, bump-kit), --json output, and how to
   add a command. Use whenever a Huishouden task runs hh, reads or changes household data from a
   terminal, when hh is missing or fails, or when adding an hh command.
@@ -96,6 +96,7 @@ why). Writes are not marked `via: 'assistant'`.
 | `hh ops secret set <repo> <name> [--env <e>]` | GitHub Actions secret, value on stdin only (see the ops skill) |
 | `hh ops monitoring [--dry-run]` | Dispatch the portal's monitoring workflow (New Relic), wait, summarize |
 | `hh ops roles`, `hh ops roles set <email> <role>` | Household roles; set as the signed-in admin through the rules |
+| `hh ops deploy-site [--no-watch]` | Dispatches the portal's `ci` with `reconcile: true` and watches it. Only the portal's deploy uploads to the asset CDN, so run it after an app's PR is merged and its deploy finished |
 | `hh ops staging-cleanup` | Staging leftovers over a day old (kit's sweep from its latest release, gcloud-impersonated token); evidence --staging runs it |
 | `hh ops profile-check [--fix]` | Org profile and repo descriptions vs apps.json and Worker repos; `--fix` opens a PR |
 | `hh login [--staging]`, `hh whoami`, `hh logout` | The sign-in for `hh data` and `hh ops roles` (above) |

@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.1.3 (2026-10-10)
+
+### Documentation
+
+- `hh ops deploy-site` and the pr-lifecycle step that runs it after an app merge (apps hold no Cloudflare token).
+
 ## 2.1.2 (2026-10-05)
 
 ### Documentation
