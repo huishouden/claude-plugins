@@ -27,8 +27,8 @@ Limits that bite (Spark, per project):
   poll anything that can prompt for credentials).
 - Firestore: 50,000 reads, 20,000 writes, 20,000 deletes a day. Staging's are shared by every
   app's test runs (`pwa-staging quota`). Reads are the limit that bites: the Workers' daily shares
-  (`FIRESTORE_*_READS` in each `wrangler.toml`) follow kit STANDARD.md "Read budgets" (Workers 28,000,
-  apps the rest), and Cloud Monitoring emails "Huishouden budget alerts" at 5,000 billed reads in an
+  (`FIRESTORE_*_READS` in each `wrangler.toml`) follow kit STANDARD.md "Read budgets" (Workers 28,000 a
+  day, the apps the rest; the Workers' sum stays at or under 30,000), and Cloud Monitoring emails "Huishouden budget alerts" at 5,000 billed reads in an
   hour and 30,000 in 24 hours. The policies are code (kit `infra/read-alert.sh`); `hh ops
   read-alerts` applies them (`--print` shows them; a policy that matches the live one is left alone,
   since an edit re-opens a firing policy's incident and emails again: don't re-apply them to "check"). When one fires: the Workers log each run's

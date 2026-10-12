@@ -146,8 +146,8 @@ Full text: pwa-kit STANDARD.md, "Who it's for".
       a state machine go back a step without progress.
     - **Workers read only through the kit's `ReadBudget`** (`@huishouden/pwa-kit/read-budget`): a cap
       per run, a share of the day in a ledger, the 429 pause, `finish()` in a `finally`, the run's
-      reads in its log line. Shares come from STANDARD.md's allocation table (Workers ≤ 30,000 a day);
-      changing one changes the table in the same PR.
+      reads in its log line. Shares come from STANDARD.md's allocation table (Workers 28,000 a day, the
+      apps the rest; the Workers' sum stays at or under 30,000); changing one changes the table in the same PR.
     - **Listeners:** never re-subscribed on every render (stable effect dependencies, cleanup that
       unsubscribes); a list that only grows is followed by window, not whole.
     Cloud Monitoring emails at 5,000 billed reads in an hour and 30,000 in a day (`hh ops read-alerts`).
