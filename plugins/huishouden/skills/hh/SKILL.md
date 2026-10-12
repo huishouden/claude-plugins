@@ -104,12 +104,18 @@ why). Writes are not marked `via: 'assistant'`.
 | `hh ops secret push <name> [--repos a,b] [--env production]` | Keychain to GitHub secrets on stdin, plus companions (cloudflare: `CLOUDFLARE_ACCOUNT_ID`); defaults per name (cloudflare: env `production` of portal, connector, notify, calendar) |
 | `hh ops secret where` | Which repos/environments hold each known secret (names and updatedAt only); flags unexpected placements |
 | `hh ops secret rotate <name>` | Guided: roll in the provider and copy, then store, push to all expected targets, verify |
+| `hh ops read-alerts [--print]` | The Firestore read alert policies (kit `infra/read-alert.sh`, gcloud login). Writes only a policy that differs from the live one; reports "unchanged" or each policy created/updated, and any script line it doesn't recognise. Production edits re-open an incident and email: run it only when the thresholds changed; `--print` reads and writes nothing |
 | `hh ops monitoring [--dry-run]` | Dispatch the portal's monitoring workflow (New Relic), wait, summarize |
 | `hh ops roles`, `hh ops roles set <email> <role>` | Household roles; set as the signed-in admin through the rules |
 | `hh ops deploy-site [--no-watch]` | Dispatches the portal's `ci` with `reconcile: true` and watches it. Only the portal's deploy uploads to the asset CDN, so run it after an app's PR is merged and its deploy finished |
 | `hh ops staging-cleanup` | Staging leftovers over a day old (kit's sweep from its latest release, gcloud-impersonated token); evidence --staging runs it |
 | `hh ops profile-check [--fix]` | Org profile and repo descriptions vs apps.json and Worker repos; `--fix` opens a PR |
 | `hh login [--staging]`, `hh whoami`, `hh logout` | The sign-in for `hh data` and `hh ops roles` (above) |
+
+Commits hh makes itself (the `chore: kit vX.Y.Z` bump) carry the trailers you give it (hh 1.13.0+):
+each `hh.commitTrailer` git config value, then each line of `HH_COMMIT_TRAILERS` (`Key: value`; a
+malformed one stops the bump). An agent whose commits end with a `Claude-Session:` line exports it
+before running hh: `export HH_COMMIT_TRAILERS='Claude-Session: https://claude.ai/code/session_…'`.
 
 `.hh/` in a repo is hh's scratch space (results, screenshots, wrapper configs); hh adds it to
 `.git/info/exclude`.

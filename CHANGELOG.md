@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.5.1 (2026-10-12)
+
+### Documentation
+
+* hh: `HH_COMMIT_TRAILERS` and `hh.commitTrailer` put trailers (a `Claude-Session:` line) on the kit-bump commits hh makes (hh 1.13.0); `hh ops read-alerts` is in the command table and reports "unchanged" or which policy changed (hh 1.13.1).
+
 ## 2.5.0 (2026-10-12)
 
 ### Documentation
