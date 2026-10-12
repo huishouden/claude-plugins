@@ -1,5 +1,12 @@
 # Changelog
 
+## 2.5.0 (2026-10-12)
+
+### Documentation
+
+* developing-an-app, pr-lifecycle: reads are budgeted, tested and capped (rule 14, kit STANDARD.md "Read budgets"). Every Worker run type, connector read tool and app main screen or sync path has a read-budget test (`expectReads`); a raised budget says why in the PR; multi-step jobs get an interleaving test; Worker reads go through the kit's `ReadBudget` under the allocation table; listeners are never re-subscribed on every render. The `huishouden:read-cost` reviewer judges it.
+* ops: the hourly read alert (5,000 billed reads in an hour) beside the daily one, kept by `hh ops read-alerts`.
+
 ## 2.4.0 (2026-10-11)
 
 ### Documentation
