@@ -26,7 +26,13 @@ Limits that bite (Spark, per project):
   Usage: Cloud Monitoring `firebasehosting.googleapis.com/network/monthly_sent` (one query; do not
   poll anything that can prompt for credentials).
 - Firestore: 50,000 reads, 20,000 writes, 20,000 deletes a day. Staging's are shared by every
-  app's test runs (`pwa-staging quota`).
+  app's test runs (`pwa-staging quota`). Reads are the limit that bites: the Workers' daily shares
+  (`FIRESTORE_*_READS` in each `wrangler.toml`) follow kit STANDARD.md "Read budgets" (Workers 28,000,
+  apps the rest), and Cloud Monitoring emails "Huishouden budget alerts" at 5,000 billed reads in an
+  hour and 30,000 in 24 hours. The policies are code (kit `infra/read-alert.sh`); `hh ops
+  read-alerts` applies them (`--print` shows them). When one fires: the Workers log each run's
+  `reads` (calendar `work`/`round`/`tick`, notify `NotifyRun.reads`/`dayReads`, the connector's
+  `tool` lines), and `firestore.googleapis.com/api/request_count` by method shows which kind of read.
 - Hashed `/assets/*` are `immutable` for a year; HTML, `sw.js` and manifests `no-cache`; Hosting
   serves Brotli/gzip. `pwa.yml`'s smoke checks these on every deploy.
 
@@ -50,6 +56,9 @@ assistants, acts as the person via the portal's /connect hand-off; also `hh logi
 `/cli/hand-off` and `/cli/token`), `calendar` (feed and Google
 sync, card alerts). Each deploys staging then production from `main` with `CLOUDFLARE_API_TOKEN`.
 Worker secrets live in Cloudflare (`wrangler secret put`), never in the repo or Actions.
+Every Worker reads Firestore through the kit's `ReadBudget`: a cap per run, its share of the day
+(calendar's in D1 `meta`, notify's and the connector's in a SQLite Durable Object), and a 15-minute
+pause for every run after Firestore answers 429.
 
 ## New Relic
 

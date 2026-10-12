@@ -26,7 +26,13 @@ merge.** Source of truth: pwa-kit STANDARD.md "Pull requests" and "Versions".
    the kit tool, the connector bump and the `hh data` command are PRs in the same change set,
    merged in this order: kit, rules (when they change), connector, cli (developing-an-app rule 13). A household task an agent was asked to do
    with no tool for it is the same: build the tool, then do the task with it.
+   **A change that reads Firestore carries its read-budget test** (developing-an-app rule 14, kit
+   STANDARD.md "Read budgets"): a new or changed Worker run type, connector read tool, app screen or
+   sync path has an `expectReads(fn, { max })` test, a multi-step job an interleaving test
+   (`writeBeforeEachRead`), and Worker reads go through the kit's `ReadBudget`.
 2. **Open a draft**: `gh pr create --draft`, conventional title, body with what changed and why.
+   **A raised read budget says why in the body**: which read was added, for what, and the old and
+   new counts (`huishouden:read-cost` flags one that doesn't).
 3. **Review while draft**: `hh dev review`. It pulls `huishouden/cr-reviewers` (clone at
    `~/Dev/huishouden-cr-reviewers`), registers it on the `reviewer` profile, and runs
    `CR_CLAUDE_FOREGROUND=1 cr review <PR> --profile reviewer --max-agents 8 --json` (with

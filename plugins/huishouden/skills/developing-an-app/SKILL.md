@@ -100,8 +100,9 @@ Full text: pwa-kit STANDARD.md, "Who it's for".
     and added with `cr config agent-source add <clone>/.codereview/agents --profile <profile>`) for
     judgment: `huishouden:docs-sync` (README, screenshots, kit docs, `apps.json`, privacy
     page, org profile and these skills move with the change), `huishouden:design-language`,
-    `huishouden:i18n`, `huishouden:roles-privacy`, `huishouden:public-data`, `huishouden:shared-kit`.
-    A rule that changes updates the reviewer that cites it.
+    `huishouden:i18n`, `huishouden:roles-privacy`, `huishouden:public-data`, `huishouden:shared-kit`,
+    `huishouden:read-cost` (Firestore read cost: loops, back-steps, stale comparisons, listeners,
+    budgets). A rule that changes updates the reviewer that cites it.
 7. **Leak protection everywhere:** the kit leak scan in CI, the pre-commit hook
    (`git config core.hooksPath .githooks`), secret scanning + push protection on. Rules describe
    patterns; never list real values to block.
@@ -129,6 +130,27 @@ Full text: pwa-kit STANDARD.md, "Who it's for".
     and the reminders, agenda items or to-dos the app derives, written alongside. A new collection
     in huishouden/rules fails its test until the kit's `COVERAGE` lists it as covered, `internal`
     with the reason, or `gap` with what is missing. `coverageGaps()` is the open list.
+
+14. **Reads are budgeted, tested and capped** (kit STANDARD.md "Read budgets"). Production's free
+    plan has 50,000 Firestore reads a day for every household, app and Worker; at the limit every
+    read fails until midnight Pacific (the 2026-10-12 incident: one calendar round read ~39,000 in
+    19 minutes). So:
+    - **Every read path carries a read-budget test:** each Worker run type, each connector read
+      tool, each app's main screens and sync paths, with `expectReads(fn, { max })` from
+      `@huishouden/pwa-kit/read-test` (REST: `meter(fetch)`; SDK: `readCounter().sdk(firebase/firestore)`).
+      The ceiling is the measured count for the test's invented data, not a round number.
+    - **A change that raises a budget says why in its PR** (which read, for what, the new count).
+    - **A job that reads in steps gets an interleaving test** (`beforeRead: writeBeforeEachRead(write)`):
+      another member's write lands before each read and the job still finishes within budget. Never
+      compare what a step just read with counts or snapshots captured earlier in the job; never let
+      a state machine go back a step without progress.
+    - **Workers read only through the kit's `ReadBudget`** (`@huishouden/pwa-kit/read-budget`): a cap
+      per run, a share of the day in a ledger, the 429 pause, `finish()` in a `finally`, the run's
+      reads in its log line. Shares come from STANDARD.md's allocation table (Workers ≤ 30,000 a day);
+      changing one changes the table in the same PR.
+    - **Listeners:** never re-subscribed on every render (stable effect dependencies, cleanup that
+      unsubscribes); a list that only grows is followed by window, not whole.
+    Cloud Monitoring emails at 5,000 billed reads in an hour and 30,000 in a day (`hh ops read-alerts`).
 
 ## Shared platform facts
 
