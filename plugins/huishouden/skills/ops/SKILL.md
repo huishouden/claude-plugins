@@ -30,7 +30,8 @@ Limits that bite (Spark, per project):
   (`FIRESTORE_*_READS` in each `wrangler.toml`) follow kit STANDARD.md "Read budgets" (Workers 28,000,
   apps the rest), and Cloud Monitoring emails "Huishouden budget alerts" at 5,000 billed reads in an
   hour and 30,000 in 24 hours. The policies are code (kit `infra/read-alert.sh`); `hh ops
-  read-alerts` applies them (`--print` shows them). When one fires: the Workers log each run's
+  read-alerts` applies them (`--print` shows them; a policy that matches the live one is left alone,
+  since an edit re-opens a firing policy's incident and emails again: don't re-apply them to "check"). When one fires: the Workers log each run's
   `reads` (calendar `work`/`round`/`tick`, notify `NotifyRun.reads`/`dayReads`, the connector's
   `tool` lines), and `firestore.googleapis.com/api/request_count` by method shows which kind of read.
 - Hashed `/assets/*` are `immutable` for a year; HTML, `sw.js` and manifests `no-cache`; Hosting
