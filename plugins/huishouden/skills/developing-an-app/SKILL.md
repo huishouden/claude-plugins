@@ -37,7 +37,7 @@ Use `SUITE_ORIGIN` / `suiteUrl(base, path)` from `@huishouden/pwa-kit/site` wher
 | Tasks, Home, Pet, Car, Bills, Spending, Baby | `huishouden/<app>` | `/<app>/` |
 | Shared kit | `huishouden/pwa-kit` (`@huishouden/pwa-kit`) | — |
 | Push sender (Cloudflare Worker) | `huishouden/notify` | — |
-| AI assistant connector, calendar feed (Cloudflare Workers) | `huishouden/connector`, `huishouden/calendar` | — |
+| AI assistant connector; calendar feed, card alerts and Add by photo (Cloudflare Workers) | `huishouden/connector`, `huishouden/calendar` | — |
 | The `hh` CLI | `huishouden/cli` | — |
 | Code reviewers | `huishouden/cr-reviewers` | — |
 | This plugin | `huishouden/claude-plugins` | — |
