@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.5.2 (2026-10-14)
+
+### Documentation
+
+* ops, developing-an-app: the calendar Worker also reads product names from photos for Groceries' Add by photo, on Workers AI's free allocation (about 29 neurons a photo; per-household, everyone and neuron caps a UTC day in D1); never the Gemini free tier for photos; photos are never stored or logged.
+
 ## 2.5.1 (2026-10-12)
 
 ### Documentation

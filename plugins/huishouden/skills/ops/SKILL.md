@@ -55,11 +55,20 @@ should have; the kit bootstrap adds missing ones (`--prune-domains` removes extr
 `notify` (Web Push every 5 minutes: product, keep its schedule), `connector` (MCP server for AI
 assistants, acts as the person via the portal's /connect hand-off; also `hh login`'s
 `/cli/hand-off` and `/cli/token`), `calendar` (feed and Google
-sync, card alerts). Each deploys staging then production from `main` with `CLOUDFLARE_API_TOKEN`.
+sync, card alerts, and Groceries' Add by photo: `POST /api/photo/products`, a vision model on the
+`[ai]` binding). Each deploys staging then production from `main` with `CLOUDFLARE_API_TOKEN`.
 Worker secrets live in Cloudflare (`wrangler secret put`), never in the repo or Actions.
 Every Worker reads Firestore through the kit's `ReadBudget`: a cap per run, its share of the day
 (calendar's in D1 `meta`, notify's and the connector's in a SQLite Durable Object), and a 15-minute
 pause for every run after Firestore answers 429.
+
+**Workers AI** (Add by photo) runs on the account's free 10,000 neurons a day, shared by production
+and staging and reset at 00:00 UTC; no paid plan and no paid API. A 768-pixel photo costs about 29
+neurons (staging, 2026-10-14). The calendar Worker caps photos per UTC day in D1 `meta`
+(`PHOTO_HOUSEHOLD_DAILY`, `PHOTO_DAILY`, `PHOTO_DAILY_NEURONS`; production and staging ceilings
+together stay under the allocation; calendar README "Add by photo"). Never the Gemini Developer
+API's free tier for photos: it may keep and review inputs. Photos are never stored or logged (kit
+STANDARD.md "Photos read by a model").
 
 ## New Relic
 
